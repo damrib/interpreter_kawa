@@ -6,4 +6,6 @@
 <p>
 Le but de ce projet est de coder un interpréteur pour un petit langage objet nommé Kawa.
 On aura 4 étapes : Lexer, Parser, Type Checker, Interpreter.
+
+Ce projet sert d'introduction à la compilation.
 </p>
