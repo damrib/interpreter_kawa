@@ -1,0 +1,55 @@
+Point a;
+Point b;
+//Circle e; //error
+
+
+class Point {
+  int x;
+  int y;
+}
+
+
+main {
+
+
+  //a.x = 5; //ERROR
+
+
+  //e = new Cercle; //error
+  //a = new Point(5); //error
+
+  a = new Point;
+  b = new Point;
+
+  if (a ==  b) { println(false); }
+  if (a =!= b) { println(false); }
+
+  if (a !=  a) { println(false); }
+  if (a =!= a) { println(false); }
+  if (b !=  b) { println(false); }
+  if (b =!= b) { println(false); }
+
+  //println(a.x); //error
+  //println(a.z); //error
+
+  //c.x = 0; //error
+  //a.z = 5; //error
+
+  a.x = 1;
+  a.y = 2;
+  b.x = 3;
+  b.y = 4;
+
+  if (a ==  b) { println(false); }
+  if (a === b) { println(false); }
+  if (a !=  a) { println(false); }
+  if (a =!= a) { println(false); }
+  if (b !=  b) { println(false); }
+  if (b =!= b) { println(false); }
+
+  if (a.x + a.y + b.x + b.y != 10) { println(false); }
+
+
+  //return 0; // error
+
+}

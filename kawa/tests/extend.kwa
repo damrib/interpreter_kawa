@@ -1,0 +1,192 @@
+Paire p;
+Paire pt;
+Triple t;
+
+Mere a;
+Fille b;
+Fille a_Fille;
+Mere b_Mere1;
+Mere b_Mere2;
+
+Trois c;
+
+
+class Paire {
+
+  int x;
+  int y;
+
+  method void constructor(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  method int somme() {
+    return this.x + this.y;
+  }
+
+}
+
+
+class Triple extends Paire {
+
+  int z;
+
+  method void constructor(int x, int y, int z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
+  method int somme() {
+    return this.x + this.y + this.z;
+  }
+
+  method int produit() {
+    return this.x * this.y * this.z;
+  }
+
+}
+
+
+class Mere {
+
+  int x;
+
+  method void constructor(int x) {
+    this.x = x;
+  }
+
+  method int get_x() {
+    return this.x;
+  }
+
+  method Mere o_Mere(Mere m){
+    return m;
+  }
+
+}
+
+
+class Fille extends Mere {
+
+  int y;
+
+  method void constructor(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  method int get_y() {
+    return this.y;
+  }
+}
+
+
+/**
+  * error
+class Troll extends Null {
+  int toto;
+}
+**/
+
+class Un {
+
+  int x;
+
+  method void constructor(int x) {
+    this.x = x;
+  }
+
+  method int double(int n) {
+    return 2 * n;
+  }
+
+}
+
+
+class Deux extends Un {
+
+  int y;
+
+  method void constructor(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  method int triple (int n) {
+    return 3 * n;
+  }
+
+}
+
+
+class Trois extends Deux {
+
+  int z;
+
+  method void constructor(int x, int y, int z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
+  method int carre(int n) {
+    return n * n;
+  }
+
+  method int calc() {
+    return this.double(this.x) + this.triple(this.y) + this.carre(this.z);
+  }
+
+}
+
+
+/**
+  * error
+class Fin extends Debut {}
+class Milieu extends Fin {}
+class Debut extends Milieu {}
+**/
+
+/**
+  Test de la fonctionnalité super
+**/
+
+
+main {
+
+  p = new Paire(1, 2);
+  if (p.somme()   !=  3) { println(false); }
+
+  t = new Triple(3, 4, 5);
+  if (t.somme()   != 12) { println(false); }
+  if (t.produit() != 60) { println(false); }
+
+
+/**
+  * ERROR ON PEUT PAS UTILISER LE CONSTRUCTEUR DE LA CLASSE MERE <------
+  pt = new Triple(1, 2, 3);
+  if (pt.somme()   != 6) { println(false); }
+  if (pt.produit() != 6) { println(false); }
+**/
+
+  a = new Mere(1);
+  b = new Fille(2, 3);
+  // a_Fille = new Mere(1); // error
+  b_Mere1 = new Fille(2, 3);
+  b_Mere2 = a.o_Mere(b_Mere1);
+
+  if (a.get_x() != 1) { println(false); }
+  if (b.get_x() != 2) { println(false); }
+  if (b.get_y() != 3) { println(false); }
+
+  c = new Trois(5, 10, 15);
+
+  if (c.calc() != 265) { println(false); }
+
+  //a.get_y(); //error
+  //b.get_z(); //error
+
+
+}

@@ -1,0 +1,52 @@
+Segment s;
+Point p;
+
+int b = 1;
+int a;
+
+class Point {
+  int x;
+  int y;
+}
+
+
+class Segment {
+  Point a;
+  Point b;
+}
+
+
+main {
+
+
+  // Tests d'affichages simples
+
+  // b = 1 + a; // Interpreter error : a variable is null
+
+  println(1);
+  println((2 - 1) * 5 / 4 % 2 - 1);
+  println(true);
+  println((false || true) && false);
+
+  // Tests d'affichages 'complexes'
+
+  p = new Point;
+  p.x = 1;
+  p.y = 2;
+
+  s = new Segment;
+  s.a = p;
+  s.b = new Point;
+  s.b.x = 3;
+  s.b.y = 4;
+
+  println(p);
+  println(s);
+
+
+  // Tests expression comme instruction
+  3;
+  true;
+
+
+}

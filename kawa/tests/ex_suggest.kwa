@@ -1,0 +1,47 @@
+int le_nombre_test = 1500;
+bool b = true;
+bool anst = false;
+Test inst = new Test;
+
+
+class Test {
+
+  int x = 0;
+  int attr = 0;
+
+}
+
+
+main {
+
+
+  // Tests les différents affichages
+
+
+  // Les variables 'simples'
+
+  //println(le_nombre_tast);
+  //println(le_nembre_tast);
+  //println(le_nombre_tst);
+  //println(le_nombre_tesst);
+  //println(la_nembre_tast);
+
+  //println(c);
+  //println(bb);
+
+  //println(insr);
+
+
+  // Les attributs d'une instance
+
+  //println(insr.x);
+  //println(inst.y);
+
+
+  // Les instances de classes
+
+  //println(anst.x);
+  //println(le_nombre_test.x);
+
+
+}

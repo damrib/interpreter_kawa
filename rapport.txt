@@ -1,0 +1,173 @@
+BARREIRO Hugo   LDD3 Magistère d'Informatique
+RIBEIRO  Damien LDD3 Informatique-Mathématiques
+
+
+Rapport :
+
+
+I) Travail effectué
+
+Nous avons traité l'ensemble du sujet initial (c'est-à-dire sans compter les extensions).
+De plus, les différents tests que nous avons effectués nous laisse penser que tout fonctionne correctement.
+On a essayé de tester tous les cas possibles et leurs limites.
+Les tests effectués n'étant, néanmoins, pas des preuves de programmes, il est quand même possible que des erreurs soient présentes, car passées sous notre vigilance.
+
+Les extensions sont traitées à part dans la 3ème partie du rapport.
+
+
+II) Difficultés et remarques
+
+La principale et (presque) seule grande difficulté a été de bien comprendre le fonctionnement du typechecker et de l'interpreter.
+Mais une fois compris, leur écriture s'est faite sans trop d'accros.
+Il en était un peu de même pour le lexer et le parser.
+Il a fallu ajouter 2-3 éléments afin de comprendre la syntaxe et les fonctionnalités, mais une fois cela fait, leur écriture a été assez facile.
+Ainsi, une fois compris comment ces 4 fichiers communiquent entre eux, tout s'est mieux passé.
+
+Nous avons essayé d'interdire au maximum tous les comportements non souhaités dans les programmes kawa.
+Pour ce faire, on soulève des erreurs dans le typechecker et l'interpreter (respectivement statiques et dynamiques) quand des actions non autorisées s'apprêtent à être commises.
+On essaye également d'indiquer quelle erreur a été faite par le programmeur à l'aide d'un message (plus ou moins) précis, adapté pour chaque situation.
+Ces comportements interdits et leurs messages d'erreurs associés ont été testés avec des tests supplémentaires (mis en commentaire à présent).
+
+On autorise seulement un cas de transtypage : l'upcast.
+Il est possible de le réaliser seulement de manière implicite.
+(cf. extensions).
+
+Dans l'interpreter avant de lancer l'exécution, nous avons décidé de faire un travail au préalable.
+Ainsi, nous avons pris l'initiative de déclarer un nouveau type correspondant aux classes dans ce fichier.
+Dans kawa.ml les méthodes sont stockées dans des listes et les attributs dans des listes "compliquées" (cf. extensions).
+Ce nouveau type nommé "classe" nous permet d'avoir une liste "simple" pour les attributs ce qui facilite le travail lorsqu'on instancie un objet.
+On stocke également les méthodes dans une table de hachage ce qui facilite la recherche d'une méthode lors d'un appel (temps constant).
+Cela nous a permis aussi d'implémenter les attributs statiques communs à toutes les instances d'une classe (cf. extensions).
+Ainsi, le travail effectué au préalable dans exec_prog correspond à ajouter les variables globales à l'environnement global et à transformer le type class_def en classe.
+
+Dans le typechecker, nous avons eu des difficultés a implementer certaines extensions. Ainsi, nous avons modifier l'usage qu'on faisait de l'environnement de typage. 
+Nous avons mis un paragraphe en commentaire au debut du typechecker afin d'expliquer comment on utilise l'environnement de typage.
+
+
+III) Extensions
+
+A) Extensions présentes dans le sujet du projet
+
+
+On a implémenté les déclarations en série et avec valeur initiale.
+Ainsi ces différentes déclarations sont autorisées :
+int x, y, z;
+int x = 5;
+int x, y = 2, z;
+Tout cela est testé et détaillé dans le fichier test ex_decla.kwa.
+Ainsi pour réaliser cela on a dû "complexifier" comment on stockait ces déclarations.
+On est passé de (string * typ) list à ((string * expr) list * typ) list (cette nouvelle structure va être encore modifiée avec la prochaine extension).
+Chaque valeur de la liste "extérieure" correspond à ligne de déclaration dans le fichier .kwa.
+Et pour chaque ligne on stocke le type de toutes les variables avec leur nom et leur expression.
+On peut "sortir" le typ dans une paire pour ne pas dupliquer cette information qui est commune à chaque variable.
+Pour les variables déclarées sans valeur initiale, on leur associe une expression nulle qu'on a ajouté dans le fichier kawa.ml.
+Cette expression nulle nous sert que dans ce cas et ne peut pas être utilisée par le programmeur.
+Cette liste "complexe" peut être ensuite utiliser comme une liste (string * typ) list dans le typechecker et l'interpreter.
+Donc pour cette extension on a dû modifier le parser pour avoir la liste de la forme souhaitée.
+Puis faire un travail au préalable dans le typechecker et l'interpreter pour ajouter les variables comme "avant", ce qui nous a permis de rien changer dans leur fonctionnement.
+Par exemple, dans l'interpreter on doit rajouter les instructions qui permettent de mettre à jour la valeur des variables globales déclarées avec une valeur initiale.
+Ainsi elles sont exécutées avant les instructions déjà présentes dans le programme.
+
+
+On a également implémenté toutes les visibilités, c'est-à-dire : final, private, protected et static.
+Pour ce faire on stocke un triplet pour connaitre les visibilités de chaque attribut.
+On a alors la liste suivante : ((string * expr * vis_stc_fin) list * typ) list avec vis_stc_fin = (vis option) * bool * bool et vis = Protected | Private.
+Dans notre triplet vis_stc_fin :
+- si le 1er champ vaut None alors l'attribut est publique, s'il vaut Some Protected alors l'attribut est protected sinon s'il vaut Some Private alors l'attribut est private.
+- si le 2ème champ vaut true alors l'attribut est static, sinon s'il vaut false alors l'attribut n'est pas statique.
+- si le 3ème champ vaut false alors l'attribut n'est pas final, s'il vaut true false alors l'attribut est final.
+Pour factoriser du code, dans le typechecker on traite les variables et l'attributs de la même manière avec un triplet avec tout à None et false pour les variables.
+Donc pour cette extension on a dû changer un peu le parser pour avoir le triplet.
+Puis, l'essentiel du travail s'est passé dans le typechecker.
+C'est dans ce fichier qu'on vérifie que toutes les actions sont valides par rapport aux visibilités des variables.
+Ainsi, le traitement des attributs/variables dans l'interpreter est resté le même à part pour les attributs statiques.
+En effet, on a du traité les attributs statiques à part des autres pour qu'ils soient partagés par toutes les instances d'une classe.
+Pour ce faire on stocke dans une nouvelle table de hachage la valeur des attributs statiques qu'on évalue juste avant le début de l'exécution du programme.
+Pour chaque instance d'une classe on stocke la même table de hachage ce qui permet de partager tous les attributs statiques avec toutes les instances.
+Apres, l'ajout de final, private, protected et static les constructeurs de classes doivent initialise les attributs "publics" et ils doivent etre initialisés les attributs finaux.
+De plus, les attributs finaux et statics doivent etre initialisées a leur declaration. Enfin, si une classe n'a pas de constructeur toutes les attributs finales doivent
+etre initialisées a la declaration et les attributs "publics" peuvent etre non initialisés.
+
+
+On a également implémenté super.
+Ainsi il est possible d'appeler n'importe quelle méthode de la classe mère.
+Si elle n'existe pas alors une erreur est soulevée.
+Toutes les vérifications d'un appel de méthode classique sont également faites.
+On a rencontré beaucoup de difficulté lorsque l'on a cherché à interdire que les attributs finaux ne soient pas initialise à la fin de l'initialisation d'un constructeur.
+Notamment, certaines verifications sur les attributs prives, on ete difficile a implemente avec super. 
+
+
+On a également implémenté les tableaux.
+On peut déclarer des tableaux (ou tableaux de tableaux de ...) de type int, bool ou de n'importe quelle classe.
+Il y a 2 façons d'initialiser des tableaux :
+- La manière explicite, par exemple, t = [1, 2, 3, 4, 5];
+- Utiliser une instruction spéciale, create_tab(typ, ...);
+Create_tab fonctionne de la façon suivante.
+Le 1er argument est le type du tableau : int, bool ou classe.
+Puis on donne un nombre variable d'arguments qui correspond aux dimensions du tableau.
+create_tab(int) -> tableau d'entiers de dimension 0, c'est-à-dire [].
+create_tab(bool, 2, 3) -> tableaux de booléens de dimension 2x3, c'est-à-dire [[null, null, null], [null, null, null]].
+La valeur par défaut est null.
+On peut accéder à et modifier une case.
+t[2] accède à la case d'indice 2 (donc la 3ème case).
+t[2] = 1; modifie la valeur de la case d'indice 2 et lui met la valeur 1;
+Enfin, une dernière fonctionnalité : size_tab(t) qui renvoie la taille du tableau t.
+Si t = [[1, 1, 1], [0, 0, 0]] alors size_tab(t) vaut 2 et size_tab(t[0]) et size_tab(t[1]) valent 3.
+Toutes ces applications sont détaillées dans le fichier test ex_array.kwa.
+
+
+On a également implémenté l'égalité structurelle.
+Pour tester si deux expressions sont structurellement égales on a ===.
+Pour tester si deux expressions ne sont pas structurellement égales on a =!=.
+Le typage est le même que pour l'égalité physique.
+Leur évaluation dans l'interpreter est très simple car on n'a même pas besoin de les décapsuler du type value en utilisant = et <> de OCaml car VInt 2 est structurellement égale à VInt 2, par exemple, il n'y a pas besoin de tester si 2 est structurellement égal à 2.
+
+
+On a également implémenté partiellement le transtypage.
+On autorise seulement un cas de transtypage : l'upcast.
+Il est possible de le réaliser seulement de manière implicite.
+Par exemple, on a 2 classes :
+class dupont_grand_pere {}
+class dupont_pere extends dupont_grand_pere {}
+Alors un transtypage autorisé est :
+dupont_grand_pere dup_gp = new dupont_pere;
+Ainsi e instanceof t renvoie true si et seulement si e est de type t ou si e est un sous-type de t.
+C'est-à-dire que t est parent du type de e (ou si type de e = t).
+Tout cela est plus détaillé dans le fichier test ex_instanceof.kwa.
+
+
+On a également partiellement simplifié les déclarations.
+On n'a pas plus besoin d'écrire var et attribute pour déclarer des variables et des attributs.
+Pour réaliser cela on a forcé que chaque nom de classe devait commencer par une majuscule, ce qui a permis de résoudre les conflits.
+En effet, comme les instructions pouvaient commencer par des idents alors il ne pouvait pas différencier les deux.
+On alors un ident comme l'ancien et un ident qui correspond seulement aux classes.
+
+
+On a également implémenté partiellement l'extension : "Did you mean '..' ?".
+Lorsque l'on veut faire un accès mémoire à :
+  - Var x si x n'est pas une variable de l'environnement alors on regarde si une variable porte un nom similaire avant de lever l'erreur.
+  - Field (o, s) alors deux cas :
+    (On vérifie d'abord que o est bien une variable de l'environnement indirectement avec type_expr o tenv).
+    - Si le type de o est TClass (nm) alors si on ne trouve pas nm.s avec x dans l'environnement, alors on regarde s'il n'y a pas quelque chose de similaire dans l'environnement.
+    (Ainsi, dans l'affichage du "Did you mean '..' ?" on effectue un affichage nom_de_classe._nom_d_un_attribut car on a pas accès au nom de l'instance).
+    - Si le type de o n'est pas TClass _, alors si o est de forme Get (Var x), alors on cherche une variable dans l'environnement qui ressemble à x.
+Nos règles de ressemblance sont :
+Si l'identifiant avec lequel on cherche une ressemblance est de longueur 5 ou moins, alors on tolère des mots de longueur 4 à 6 avec 1 erreur maximum.
+Sinon, il est de longueur n >= 6, et on tolère des mots de longueur (n - 2) à (n + 2) avec 2 erreurs maximums.
+Si dans l'environnement aucun ne respecte ces conditions, alors on soulève l'erreur classique.
+Le test des affichages est réalisé dans le fichier test ex_suggest.kwa (mis en commentaire à présent).
+
+
+B) Extensions personnelles
+
+
+Nous avons décidé d'ajouter les mots-clefs break et continue dans les boucles while.
+Break permet de stopper directement la boucle.
+Continue permet d'aller directement au prochain tour de boucle.
+Les utiliser en dehors d'une boucle while provoque une erreur.
+Des tests ont été ajouté pour vérifier leur bon fonctionnement.
+
+
+Nous avons aussi ajouté l'instruction println.
+Print affiche sans retour à la ligne.
+Println affiche avec un retour à la ligne.

@@ -1,0 +1,362 @@
+Vis_test1 t1;
+Vis_test2 t2;
+
+Static_test t3;
+Static_test t4;
+
+Final_extend_super2 t5;
+Final_extend_super2 t6;
+
+Static_test aled;
+
+Final_tab_test t7;
+int i = 0;
+int j = 0;
+
+Final_extend_super3 t8;
+
+Final_test t9;
+Final_extend_super1 t10;
+
+class Final_test {
+
+    int n;
+
+    final int f1;
+    final int f2 = 1;
+    static final int f3 = 2;
+    //static final int f4; // Error("static final fields have to be assigned a value when they are declared")
+
+    //private final int fpre; // Error("no value assigned to final field") dans sous classe qui n'utilise pas le constructeur super
+    private final int fpri = 0;
+    private int fprni;
+
+    protected final int fpo;
+    protected final int fpoi = 0;
+    protected int fponi;
+
+    method void constructor(int n, int f){
+        this.n = n;
+
+        this.f1 = f; // si l'on commente Error("no value assigned to final field")
+        //this.f2 = 1; // Error("cannot change value of final field")
+
+        //this.fpre = f;
+
+        this.fpo = 0;
+
+        this.fprni = 0;
+        this.fprni = 1;
+    }
+
+    method int te(){
+
+        // this.f1 = 1; // Error("cannot change value of final field")
+        // this.f2 = 2; // Error("cannot change value of final field")
+        // this.f3 = 3; // Error("cannot change value of final field")
+
+        return this.n;
+    }
+
+}
+
+class Final_extend_super2 extends Final_extend_super1 {
+
+  method void constructor(int n, int f){
+    super.constructor(n, f);
+    this.fponi = 0;
+  }
+
+}
+
+class Final_extend_super1 extends Final_test {
+
+  method void constructor(int n, int f){
+    super.constructor(n, f);
+    this.fponi = 0;
+  }
+
+}
+
+class Final_extend_super3 extends Final_extend_super2{
+
+  method int te(){
+    // print(this.fprni); // Error("private field can only be accessed from own class")
+    this.fponi = 3;
+    return this.n+1;
+  }
+}
+
+class Final_extend extends Final_test {
+
+  bool n;
+
+  method void constructor(int n, int f){
+
+    this.n = true;
+
+    this.f1 = f;
+    // this.abc = 10; Error("Did you mean 'Final_extend.n' ?") 
+
+    this.fpo = 0;
+
+  }
+
+}
+
+class Final_tab_test {
+
+  final int[] t1;
+  final int[][] t2;
+
+  method void constructor(int n, int x) {
+
+    int i = 0;
+    int j = 0;
+
+    this.t1 = create_tab(int, n);
+    this.t2 = create_tab(int, n, n);
+
+    while (i < size_tab(this.t1)) {
+      this.t1[i] = x;
+
+      while (j < size_tab(this.t2[i])) {
+        this.t2[i][j] = x;
+        j = j + 1;
+      }
+
+      i = i + 1;
+      j = 0;
+    }
+
+  }
+
+  method void test(int n, int x) {
+
+    int i = 0;
+    int j = 0;
+
+    if (size_tab(this.t1) != n) { println(false); }
+    if (size_tab(this.t2) != n) { println(false); }
+
+
+    while (i < size_tab(this.t1)) {
+      if (this.t1[i] != x) { println(false); }
+
+      while (j < size_tab(this.t2[i])) {
+        if (size_tab(this.t2[i]) != n) { println(false); }
+
+        if (this.t2[i][j] != x) { println(false); }
+        j = j + 1;
+      }
+
+      i = i + 1;
+      j = 0;
+    }
+  }
+
+}
+
+class Vis_test1 {
+
+    private   int n1;
+    protected int n2;
+
+    method void constructor(int n1){
+        this.n1 = n1;
+        this.n2 = 3 ;
+    }
+
+    method protected int somme(int n) {
+        this.n1 = n;
+        this.n2 = 0;
+
+        return this.n1 + this.n2;
+    }
+
+    method private int plus_un() {
+      this.n1 = this.n1 + 1;
+    }
+
+    method int get_n1() {
+      return this.n1;
+    }
+
+    method int get_n2() {
+      return this.n2;
+    }
+
+}
+
+
+class Vis_test2 extends Vis_test1 {
+
+    method void constructor(int x){
+      super.constructor(x);
+
+      //this.n1 = 2; //ERROR
+      this.n2 = 4;
+
+    }
+
+    method int somme(int n) {
+      super.somme(n);
+
+      //super.plus_un(); //ERROR
+
+      this.n2 = n;
+
+      return this.get_n1() + this.n2;
+    }
+
+}
+
+
+class Static_test {
+
+  static int x = 5;
+  static int y = 2;
+  //final int z; //Error("no value assigned to final field")
+  final int zz = 0;
+
+}
+
+/**class Static_test { // Error("duplicate class Static_test")
+
+  static int x = 5;
+  static int y = 2;
+  //final int z; //Error("no value assigned to final field")
+  final int zz = 0;
+
+}**/
+
+
+main {
+
+
+  // Test de l'init (attributs)
+
+  t1 = new Vis_test1(1);
+
+  if (t1.get_n1() != 1) { println(false); }
+  if (t1.get_n2() != 3) { println(false); }
+
+
+  t2 = new Vis_test2(1);
+
+  if (t2.get_n1() != 1) { println(false); }
+  if (t2.get_n2() != 4) { println(false); }
+
+
+  //t1.n1 = 2; //ERROR
+  //t1.n2 = 3; //ERROR
+
+  //t2.n1 = 2; //ERROR
+  //t2.n2 = 3; //ERRRR
+
+
+  // Test des méthodes
+
+  //t1.somme(3); //ERROR
+
+  if (t2.somme(3) != 6) { println(false); }
+  if (t2.get_n1() != 3) { println(false); }
+  if (t2.get_n2() != 3) { println(false); }
+
+
+  // Tests sur static
+
+  t3 = new Static_test;
+  t4 = new Static_test;
+
+  //println(t3.y); //ERROR
+  t3.y = 2;
+
+  if (t3.x != 5) { println(false); }
+  if (t4.x != 5) { println(false); }
+  if (t3.y != 2) { println(false); }
+  if (t4.y != 2) { println(false); }
+
+  t3.x = 1;
+  t4.y = 3;
+
+  if (t3.x != 1) { println(false); }
+  if (t4.x != 1) { println(false); }
+  if (t3.y != 3) { println(false); }
+  if (t4.y != 3) { println(false); }
+
+  t4.x = 3;
+  t3.y = 1;
+
+  if (t3.x != 3) { println(false); }
+  if (t4.x != 3) { println(false); }
+  if (t3.y != 1) { println(false); }
+  if (t4.y != 1) { println(false); }
+
+
+  // Tests sur final
+
+  t5 = new Final_extend_super2(1, 2);
+  t6 = new Final_extend_super2(2, 4);
+
+  if (t5.f3 != 2) { println(false); }
+  if (t6.f3 != 2) { println(false); }
+
+  if (t5.n  != 1) { println(false); }
+  if (t5.f1 != 2) { println(false); }
+  if (t5.f2 != 1) { println(false); }
+
+  if (t6.n  != 2) { println(false); }
+  if (t6.f1 != 4) { println(false); }
+  if (t6.f2 != 1) { println(false); }
+
+  if (t5.te() != 1) { println(false); }
+  if (t6.te() != 2) { println(false); }
+
+
+  // Tests sur final avec les tabs
+
+  t7 = new Final_tab_test(5, 0);
+  t7.test(5, 0);
+
+  while (i < 5) {
+    t7.t1[i] = 10;
+
+    while (j < 5) {
+      t7.t2[i][j] = 10;
+      j = j + 1;
+    }
+
+    i = i + 1;
+    j = 0;
+  }
+
+  // On changer les valeurs d'un tableau final
+  t7.test(5, 10);
+  t7.t2[0] = [2, 2, 2];
+
+  //t7.t1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; //ERROR
+  //t7.t2 = [[1, 2, 3], [1, 2, 3], [1, 2, 3]]; //ERROR
+
+  // test sur constructeur
+
+  t8 = new Final_extend_super3(0, 0);
+  if (t8.te() != 1) { println(false); }
+
+  t9 = new Final_test(1, 2);
+  t10 = new Final_extend_super1(2, 4);
+
+  if (t9.f3 != 2) { println(false); }
+  if (t10.f3 != 2) { println(false); }
+
+  if (t9.n  != 1) { println(false); }
+  if (t9.f1 != 2) { println(false); }
+  if (t9.f2 != 1) { println(false); }
+
+  if (t10.n  != 2) { println(false); }
+  if (t10.f1 != 4) { println(false); }
+  if (t10.f2 != 1) { println(false); }
+
+  if (t9.te() != 1) { println(false); }
+  if (t10.te() != 2) { println(false); }
+}

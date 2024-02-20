@@ -1,0 +1,67 @@
+Dupont_grand_pere dup_gp = new Dupont_grand_pere;
+Dupont_pere dup_p = new Dupont_pere;
+Dupont_fils dup_f = new Dupont_fils;
+
+Toto to = new Toto;
+
+
+class Dupont_grand_pere {}
+class Dupont_pere extends Dupont_grand_pere {}
+class Dupont_fils extends Dupont_pere {}
+
+class Toto {}
+
+
+main {
+
+
+  // Tests instanceof dans une même ligne d'héritage
+
+  if (! (dup_gp instanceof Dupont_grand_pere)) { println(false); }
+  if (! (dup_p  instanceof Dupont_grand_pere)) { println(false); }
+  if (! (dup_f  instanceof Dupont_grand_pere)) { println(false); }
+
+  if (   dup_gp instanceof Dupont_pere ) { println(false); }
+  if (! (dup_p  instanceof Dupont_pere)) { println(false); }
+  if (! (dup_f  instanceof Dupont_pere)) { println(false); }
+
+  if (   dup_gp instanceof Dupont_fils ) { println(false); }
+  if (   dup_p  instanceof Dupont_fils ) { println(false); }
+  if (! (dup_f  instanceof Dupont_fils)) { println(false); }
+
+
+  // Tests instanceof entre deux lignes d'héritages différentes
+
+  if (dup_gp instanceof Toto) { println(false); }
+  if (dup_p  instanceof Toto) { println(false); }
+  if (dup_f  instanceof Toto) { println(false); }
+
+  if (to instanceof Dupont_grand_pere) { println(false); }
+  if (to instanceof Dupont_pere      ) { println(false); }
+  if (to instanceof Dupont_fils      ) { println(false); }
+
+
+  // Tests avec le transtypage
+
+  dup_gp = new Dupont_pere;
+  if (! (dup_gp instanceof Dupont_grand_pere)) { println(false); }
+  if (! (dup_gp instanceof Dupont_pere      )) { println(false); }
+
+  dup_gp = new Dupont_fils;
+  if (! (dup_gp instanceof Dupont_grand_pere)) { println(false); }
+  if (! (dup_gp instanceof Dupont_pere      )) { println(false); }
+  if (! (dup_gp instanceof Dupont_fils      )) { println(false); }
+
+  dup_p  = new Dupont_fils;
+  if (! (dup_p  instanceof Dupont_pere      )) { println(false); }
+  if (! (dup_p  instanceof Dupont_fils      )) { println(false); }
+
+
+  // Tests arguments incorrects
+
+  //dup_gp instanceof int; //ERROR
+  //3 instanceof Dupont_fils; //ERROR
+  //3 instanceof int; //ERROR
+
+
+}

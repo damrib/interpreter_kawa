@@ -1,0 +1,58 @@
+Super_test2 sp2;
+
+
+class Super_test1 {
+
+  int x;
+
+  method void constructor(int x) {
+    this.x = x;
+  }
+
+  method void test(int x) {
+    if (this.x != x) { println(false); }
+  }
+
+}
+
+
+class Super_test2 extends Super_test1 {
+
+  int y;
+  int a, b = 6;
+
+  method void constructor(int x, int y) {
+    super.constructor(x);
+    this.y = y;
+    this.a = 5;
+  }
+
+  method void test(int x, int y, int z, int t) {
+    super.test(x);
+
+    if (this.y != y) { println(false); }
+    if (this.a != z) { println(false); }
+    if (this.b != t) { println(false); }
+  }
+
+  /**
+    * erreur typechecker
+  method void incr(int z) {
+    super.incr(z);
+    this.y = this.y + z;
+  }
+  **/
+
+}
+
+
+main {
+
+
+  sp2 = new Super_test2(1, 2);
+  sp2.test(1, 2, 5, 6);
+
+  //sp2.incr(2); //error
+
+
+}

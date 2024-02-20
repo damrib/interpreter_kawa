@@ -1,0 +1,95 @@
+int a, b, c;
+bool d = true;
+int e, f;
+bool g, h, i;
+int j = 5;
+bool k = false;
+
+Test l, m, n;
+Test o = new Test(0, 1, false, true);
+
+int x, y = 10, z;
+
+class Test {
+
+  int x = 0;
+  int y, z;
+  bool a = false;
+  bool b, c;
+
+  method void constructor(int a, int b, bool c, bool d) {
+    this.y = a;
+    this.z = b;
+    this.b = c;
+    this.c = d;
+  }
+
+  method void compare(int a, int b, int c, bool d, bool e, bool f) {
+    if (this.x != a || this.y != b || this.z != c || this.a != d || this.b != e || this.c != f)
+    { println(false); }
+  }
+
+  method int calc(int a, int b) {
+    int c = 5;
+    int d, e;
+
+    d = a;
+    e = b;
+
+    return c + d + e;
+  }
+
+}
+
+
+main {
+
+
+  // Tests sur les constantes
+
+  a = 0;
+  b = 1;
+  c = 2;
+  e = 3;
+  f = 4;
+  x = 9;
+  z = 11;
+
+  g = false;
+  h = true ;
+  i = false;
+
+  if (a != 0) { println(false); }
+  if (b != 1) { println(false); }
+  if (c != 2) { println(false); }
+  if (e != 3) { println(false); }
+  if (f != 4) { println(false); }
+  if (j != 5) { println(false); }
+
+  if (x != 9 ) { println(false); }
+  if (y != 10) { println(false); }
+  if (z != 11) { println(false); }
+
+  if (d != true ) { println(false); }
+  if (g != false) { println(false); }
+  if (h != true ) { println(false); }
+  if (i != false) { println(false); }
+  if (k != false) { println(false); }
+
+
+  // Tests sur les classes
+
+  l = new Test(1, 1, true, true);
+  m = new Test(0, 0, false, false);
+  n = new Test(1, 0, true, false);
+
+  l.compare(0, 1, 1, false, true, true);
+  m.compare(0, 0, 0, false, false, false);
+  n.compare(0, 1, 0, false, true, false);
+  o.compare(0, 0, 1, false, false, true);
+
+  if (l.calc(0, 0) != 5) { println(false); }
+  if (o.calc(1, 1) != 7) { println(false); }
+
+
+}

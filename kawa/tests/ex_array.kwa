@@ -1,0 +1,199 @@
+int[] a;
+bool[][] b;
+int[][] d = [[0], [0]];
+
+Test x = new Test;
+Test y = new Test;
+Test z = new Test;
+Test[] c;
+
+Test2 w = new Test2;
+Test v = new Test3;
+
+//void[][] z; // ERROR
+
+//int[][] e = create_tab(int, 2); //ERROR
+//int[][] e = create_tab(int, 2, 3, 4); //ERROR
+//int[][] e = create_tab(bool, 2, 3); //ERROR
+//int[][] e = create_tab(int[], 2, 3); //ERROR
+//int[][] e = create_tab(void, 2, 3); //ERROR
+//int[][] e = create_tab(int, 0, 2); //ERROR
+//int[][] e = create_tab(int, 2, -1); //ERROR
+int[][] e  = create_tab(int,  2, 3);
+Test[][] f = create_tab(Test, 1, 1);
+int[] g = create_tab(int);
+
+
+class Test {
+  int[] x = [0];
+
+  method int get_x() {
+    return this.x[0];
+  }
+
+}
+
+
+class Test2 {}
+class Test3 extends Test {}
+
+
+main {
+
+
+  // Test init int tab
+
+  a = [];
+  println(a);
+
+  a = [1];
+  println(a);
+
+  a = [1, 2, 3];
+  println(a);
+
+  /**
+    * ERROR
+  a = [true];
+  **/
+
+  /**
+    * ERROR
+  a[-1];
+  **/
+
+  /**
+    * ERROR
+  a[3];
+  **/
+
+
+  // Test init bool tab tab
+
+  b = [];
+  println(b);
+
+  b = [[]];
+  println(b);
+
+  b = [[], [true]];
+  println(b);
+  b = [[false], []];
+  println(b);
+
+  b = [[true, true], [false]];
+  println(b);
+
+  /**
+    * ERROR
+  b[0][-1];
+  **/
+
+  /**
+    * ERROR
+  b[0][2];
+  **/
+
+
+  // Test get
+
+  if (a[0] != 1) { println(false); }
+  if (a[1] != 2) { println(false); }
+  if (a[2] != 3) { println(false); }
+
+  if (b[0][0] !=  true) { println(false); }
+  if (b[0][1] !=  true) { println(false); }
+  if (b[1][0] != false) { println(false); }
+
+  if (d[0][0] != 0) { println(false); }
+  if (d[1][0] != 0) { println(false); }
+
+
+  // Test set
+
+  a[0] = 10;
+  if (a[0] != 10) { println(false); }
+
+  b[0][0] = false;
+  if (b[0][0] != false) { println(false); }
+
+  b[1] = [true, true, true];
+  if (b[1][0] != true) { println(false); }
+  if (b[1][1] != true) { println(false); }
+  if (b[1][2] != true) { println(false); }
+
+  /**
+    * ERROR
+  a[0] = [1];
+  **/
+
+  /**
+    * ERROR
+  b[1] = true;
+  **/
+
+
+  // Test tableaux de classes
+
+  c = [x, y, z];
+  if (c[0].get_x() != 0) { println(false); }
+  if (c[1].get_x() != 0) { println(false); }
+  if (c[2].get_x() != 0) { println(false); }
+
+  /**
+    * ERROR
+  c[0] = w;
+  **/
+
+  c[0] = v;
+  println(c);
+
+
+  // Test create_tab
+
+  e[0][0] = 1;
+  e[0][1] = 1;
+  e[0][2] = 1;
+  e[1][0] = 1;
+  e[1][1] = 1;
+  e[1][2] = 1;
+  //e[2][0] = 1; //ERROR
+  //e[0][3] = 1; //ERROR
+  println(e);
+
+  f[0][0] = x;
+  println(f);
+
+  //e[0][0] = false; //ERROR
+  //f[0][0] = false; //ERROR
+
+  println(g);
+
+
+  // Test size_tab
+
+
+  if (size_tab(a)    != 3) { println(false); }
+  if (size_tab(b)    != 2) { println(false); }
+  if (size_tab(b[0]) != 2) { println(false); }
+  if (size_tab(b[1]) != 3) { println(false); }
+  if (size_tab(d)    != 2) { println(false); }
+  if (size_tab(d[0]) != 1) { println(false); }
+  if (size_tab(d[1]) != 1) { println(false); }
+  if (size_tab(c)    != 3) { println(false); }
+  if (size_tab(e)    != 2) { println(false); }
+  if (size_tab(e[0]) != 3) { println(false); }
+  if (size_tab(e[1]) != 3) { println(false); }
+  if (size_tab(f)    != 1) { println(false); }
+  if (size_tab(f[0]) != 1) { println(false); }
+  if (size_tab(g)    != 0) { println(false); }
+
+  if (size_tab([0, 1, 2])                != 3) { println(false); }
+  if (size_tab(create_tab(int, 2, 3))    != 2) { println(false); }
+  if (size_tab(create_tab(int, 2, 3)[0]) != 3) { println(false); }
+  if (size_tab(create_tab(int, 2, 3)[1]) != 3) { println(false); }
+
+  //size_tab(2); //ERROR
+
+
+}

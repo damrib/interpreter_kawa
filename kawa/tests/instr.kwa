@@ -1,0 +1,133 @@
+int a;
+int n;
+int acc;
+bool b;
+
+
+main {
+
+
+  // Tests if/else
+
+  if (true) {
+    println(true);
+  }
+
+  if (false) {
+    println(false);
+  } else {
+    println(true);
+  }
+
+  if (true) {
+    if (true) {
+      println(true);
+    }
+  }
+
+  if (true) {
+    if (false) {
+      println(false);
+    } else {
+      println(true);
+    }
+  }
+
+
+  // Tests operation booleenne
+
+  if (! true) {
+    println(false);
+  }
+
+  if (! false) {
+    println(true);
+  }
+
+  if (true && false) {
+    println(false);
+  }
+
+  if (true && true) {
+    println(true);
+  }
+
+  b = true  && true ;  if (!b)  { println(false); }
+  b = true  && false;  if ( b)  { println(false); }
+  b = false && true ;  if ( b)  { println(false); }
+  b = false && false;  if ( b)  { println(false); }
+
+  b = true  || true ;  if (!b)  { println(false); }
+  b = true  || false;  if (!b)  { println(false); }
+  b = false || true ;  if (!b)  { println(false); }
+  b = false || false;  if ( b)  { println(false); }
+
+  b = 3 <  3;  if ( b)  { println(false); }
+  b = 2 <  3;  if (!b)  { println(false); }
+  b = 3 <= 2;  if ( b)  { println(false); }
+  b = 3 <= 3;  if (!b)  { println(false); }
+
+  b = 3 >  3;  if ( b)  { println(false); }
+  b = 3 >  2;  if (!b)  { println(false); }
+  b = 2 >= 3;  if ( b)  { println(false); }
+  b = 3 >= 3;  if (!b)  { println(false); }
+
+  b = 3 < 3 && 3 <= 3        ;  if ( b)  { println(false); }
+  b = 3 > 3 || 3 >= 3        ;  if (!b)  { println(false); }
+  b = 3 < 5 || 3 < 2 && 3 > 1;  if (!b)  { println(false); }
+
+  b = true  == true ;  if (!b)  { println(false); }
+  b = true  == false;  if ( b)  { println(false); }
+  b = false == true ;  if ( b)  { println(false); }
+  b = false == false;  if (!b)  { println(false); }
+
+  b = true  != true ;  if ( b)  { println(false); }
+  b = true  != false;  if (!b)  { println(false); }
+  b = false != true ;  if (!b)  { println(false); }
+  b = false != false;  if ( b)  { println(false); }
+
+  b = 3 == 2;  if ( b)  { println(false); }
+  b = 3 == 3;  if (!b)  { println(false); }
+  b = 3 != 3;  if ( b)  { println(false); }
+  b = 3 != 2;  if (!b)  { println(false); }
+
+  b = (3 < 3 && 3 <= 3) == (3 != 2 || 2 != 3);  if (b)  { println(false); }
+  b = 3 + 6 != 12 - 3                        ;  if (b)  { println(false); }
+  b = 3 <= 3 == 3 > 3                        ;  if (b)  { println(false); }
+
+
+  // Test Break/Continue
+
+  while ( true ) {
+    println(true);
+
+    break;
+  }
+
+  a = 0;
+  while ( a < 3 ) {
+    a = a + 1;
+    println(true);
+    continue;
+  a = 4;
+  }
+
+  //continue; //error
+  //break;    //error
+
+
+  // Test Final :
+
+  a = 2;
+  n = 9;
+  acc = 1;
+  while (n != 0) {
+    if (n % 2 != 0) { acc = a * acc; } else {}
+    a = a * a;
+    n = n / 2;
+  }
+
+  if (acc != 512) { println(false); }
+
+
+}

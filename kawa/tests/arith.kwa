@@ -1,0 +1,58 @@
+int a;
+
+
+main {
+
+
+  // Tests opp
+  a = -1;     if (!(a == -1)) { println(false); }
+  a = -(-1);  if (!(a == 1))  { println(false); }
+
+  // Tests add
+  a = 1 + 0;      if (!(a == 1))  { println(false); }
+  a = 0 + 1;      if (!(a == 1))  { println(false); }
+  a = 0 + 0 + 1;  if (!(a == 1))  { println(false); }
+  a = 1 + 1 + 1;  if (!(a == 3))  { println(false); }
+
+  // Tests sub
+  a = 2 - 1;      if (!(a == 1))  { println(false); }
+  a = 1 - 0;      if (!(a == 1))  { println(false); }
+  a = 3 - 1 - 1;  if (!(a == 1))  { println(false); }
+  a = 1 - 0 - 0;  if (!(a == 1))  { println(false); }
+
+  // Tests mul
+  a = 1 * 1;    if (!(a == 1))   { println(false); }
+  a = 0 * 1000; if (!(a == 0))   { println(false); }
+  a = 5 * 5;    if (!(a == 25))  { println(false); }
+
+  // Tests div
+  a = 13 / 2;  if (!(a == 6))  { println(false); }
+  a = 12 / 2;  if (!(a == 6))  { println(false); }
+  a = 5 / 1 ;  if (!(a == 5))  { println(false); }
+  //a = 5 / 0 ; //error
+
+  // Tests mod
+  a = 13 % 2;  if (!(a == 1))  { println(false); }
+  a = 12 % 2;  if (!(a == 0))  { println(false); }
+  a = 0 % 5 ;  if (!(a == 0))  { println(false); }
+  a = 1 % 5 ;  if (!(a == 1))  { println(false); }
+  //a = 5 % 0 ; //error
+
+  // Tests combinaison
+  a = -1 + 1 + 1            ;  if (!(a ==   1))  { println(false); }
+  a = 1 + -1 + 1            ;  if (!(a ==   1))  { println(false); }
+  a = -1 - 5                ;  if (!(a ==  -6))  { println(false); }
+  a = -(1 + 1)              ;  if (!(a ==  -2))  { println(false); }
+  a = 2 * (5 + 1)           ;  if (!(a ==  12))  { println(false); }
+  a = -2 * (5 - -5)         ;  if (!(a == -20))  { println(false); }
+  a = -5 * (5 / 2) + (5 % 2);  if (!(a ==  -9))  { println(false); }
+  a = 3 * (3 + 1)           ;  if (!(a ==  12))  { println(false); }
+  a = 3 * (3 - 1)           ;  if (!(a ==   6))  { println(false); }
+
+  // Tests equal
+  if (1 + 2 + 3 ==  5)  { println(false); }
+  if (1 + 2 + 3 !=  6)  { println(false); }
+  if (1 + 2 + 3 === 5)  { println(false); }
+  if (1 + 2 + 3 =!= 6)  { println(false); }
+
+}

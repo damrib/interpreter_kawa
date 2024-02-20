@@ -1,0 +1,48 @@
+int a;
+bool b;
+int x;
+int y;
+
+
+/**
+ * Le cas des variables qui
+ * sont des classes est
+ * traité dans les fichiers
+ * tests associés aux classes
+**/
+
+
+main {
+
+
+  // Tests d'affectations basiques
+
+  //println(a); //error
+  a = 1;
+  b = true;
+  //c = 0; //error
+  //a = false; //error
+  //b = 0; // error
+
+  if (a != 1)    { println(false); }
+  if (b != true) { println(false); }
+
+
+  // Tests supplémentaires
+
+  x = 1;
+  y = 6;
+  x = x + 2;
+  y = y * (x + 4);
+
+  if (y != 42) { println(false); }
+
+
+  // Tests equal
+
+  if (b !=  true )  { println(false); }
+  if (b ==  false) { println(false); }
+  if (b =!= true )  { println(false); }
+  if (b === false) { println(false); }
+
+}

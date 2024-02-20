@@ -1,0 +1,118 @@
+Point p;
+Sansvarloc t1;
+Avecvarloc t2;
+//Cercle c;
+
+
+class Point {
+  int x;
+  int y;
+
+  method void constructor(int a, int b) {
+    // int this; // error syntax
+
+    this.x = a;
+    this.y = b;
+  }
+
+  method int somme() {
+    return this.x + this.y;
+  }
+
+  method void swipe_attr() {
+    int tmp;
+
+    tmp = this.x;
+    this.x = this.y;
+    this.y = tmp;
+  }
+
+  method int anticipate_return(int n) {
+    int a;
+    bool b;
+
+    return n;
+    a = -1;
+    b = true;
+
+    // return b; // error
+    return a;
+  }
+
+}
+
+
+class Sansvarloc {
+
+  method int toto(int n) {
+    return n / 2;
+  }
+
+  method int tutu(int n) {
+    return -1 * n;
+  }
+
+  method int test() {
+    return this.toto(5) + this.tutu(5) * 5;
+  }
+
+}
+
+
+class Avecvarloc {
+
+  method int toto(int n) {
+    return n / 2;
+  }
+
+  method int tutu(int n) {
+    return -1 * this.toto(n);
+  }
+
+  method int test() {
+    int n;
+    int res;
+
+    n = 10;
+    n = this.toto(n);
+    res = this.toto(n) + this.tutu(n) * n;
+    return res;
+  }
+
+}
+
+
+
+main {
+
+
+  //c = new Cercle(2); //error
+  //this.x = 5; //error
+  //p = new Point(2); //error
+
+  p = new Point(2, 1);
+  if (p.x != 2) { println(false); }
+  if (p.y != 1) { println(false); }
+
+  p.x = 3 + p.x;
+  if (p.x != 5) { println(false); }
+
+  if (48 + p.somme() != 54) { println(false); }
+
+  p.swipe_attr();
+  if (p.x != 1) { println(false); }
+  if (p.y != 5) { println(false); }
+
+  if (p.anticipate_return(10) != 10) { println(false); }
+
+  t1 = new Sansvarloc;
+  if (t1.test() != -23) { println(false); }
+
+  t2 = new Avecvarloc;
+  if (t2.test() != -8) { println(false); }
+
+  //p.affiche(); //error
+  //return 5; //error
+
+
+}

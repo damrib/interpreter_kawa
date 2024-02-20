@@ -1,0 +1,33 @@
+Segment s;
+Point p;
+
+
+class Point {
+  int x;
+  int y;
+}
+
+
+class Segment {
+  Point a;
+  Point b;
+}
+
+
+main {
+
+
+  p = new Point;
+  p.x = 1;
+  p.y = 2;
+  s = new Segment;
+  s.a = p;
+  s.b = new Point;
+  s.b.x = 3;
+  p = s.b;
+  p.y = 4;
+
+  if (s.a.x + s.a.y + s.b.x + s.b.y != 10) { println(false); }
+
+
+}
